@@ -1,6 +1,5 @@
 const app = require('http');
 const path = require('path');
-const fs = require('fs');
 const chalk = require('chalk');
 const config = require('./config/config.js');
 const route = require('./helper/route.js');
