@@ -1,0 +1,25 @@
+{
+  "name": "staticresourceserver-node",
+  "version": "1.0.0",
+  "description": "静态资源服务器-node 版",
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "handlebars": "^4.1.2",
+    "mime-types": "^2.1.24"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangjunw/staticResourceServer-node.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wangjunw/staticResourceServer-node/issues"
+  },
+  "homepage": "https://github.com/wangjunw/staticResourceServer-node#readme"
+}

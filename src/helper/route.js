@@ -15,24 +15,24 @@ const tplPath = path.join(__dirname, '../template/dir.tpl');
 const source = fs.readFileSync(tplPath, 'utf-8');
 // 编译模板，参数需要是字符串
 const template = handlebars.compile(source);
+// 获取文件类型
 const mime = require('mime-types');
-
-// 压缩文件
+const getIcon = require('./getIcon.js');
+// 支持压缩文件
 const compress = require('./compress');
-module.exports = async function(req, res, filePath) {
+module.exports = async function(req, res, rootPath, filePath) {
     try {
-        // console.log(filePath);
         const stats = await stat(filePath);
         // 判断访问的路径是文件还是文件夹
         if (stats.isFile()) {
             const contentType = mime.lookup(filePath);
+            // 判断文件类型
             res.statusCode = 200;
-            res.setHeader('Content-Type', contentType);
+            res.setHeader('Content-Type', `${contentType};charset=utf-8`);
             // 如果是文件，以流的方式返回，性能好一些
             // fs.createReadStream(filePath).pipe(res);
-
-            // 支持压缩文件
             let rs = fs.createReadStream(filePath);
+            // 如果是指定文件类型，进行压缩
             if (filePath.match(config.compress)) {
                 rs = compress(rs, req, res);
             }
@@ -41,12 +41,21 @@ module.exports = async function(req, res, filePath) {
             // 如果是目录读取目录
             const files = await readdir(filePath);
             res.statusCode = 200;
+            // 如果是文件夹，返回html网页即可
             res.setHeader('Content-Type', 'text/html');
-            const dir = path.relative(config.root, filePath);
+            const relativePath = path.relative(rootPath, filePath);
+            // 如果访问根路径，那么取得相对路径：relativePath为空字符串，这时不必拼接/，否则会出现//js的现象
             const data = {
-                files,
+                // 根据文件类型显示对应的图标
+                files: files.map(file => ({
+                    file,
+                    icon: `${path.sep}icon${path.sep}${getIcon(file)}.png`
+                })),
                 title: path.basename(filePath),
-                dir: dir ? `/${dir}` : ''
+                dir: relativePath
+                    ? `${path.sep}${relativePath}`
+                    : `${relativePath}`,
+                splitter: path.sep
             };
             res.end(template(data));
         }
