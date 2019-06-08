@@ -22,8 +22,10 @@
 
 ## 使用方法
 
+安装依赖(没有 nodemon 需要单独安装，或者修改执行命令)。
+
 ```
-npm install #安装依赖(没有nodemon需要单独安装，或者修改执行命令)
+npm install
 npm run start
 ```
 
