@@ -13,3 +13,7 @@
 #### 支持文件压缩
 
 使用 node 自带`zlib`模块，和`fs.createReadStream`配合。
+
+#### 文件缓存功能
+
+通过设置、获取 header 信息判断是否使用缓存
